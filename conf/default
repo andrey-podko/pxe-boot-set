@@ -1,0 +1,40 @@
+#
+DEFAULT vesamenu.c32
+PROMPT 0
+timeout 80
+TOTALTIMEOUT 9000
+
+MENU TITLE PXE Boot Menu (x86)
+MENU INCLUDE pxelinux.cfg/graphics.conf
+MENU AUTOBOOT Starting Local System in 8 seconds
+
+# Local boot (default)
+LABEL bootlocal
+menu label Boot from default device (hdd,cd,usb)
+menu default
+localboot 0x80
+# if it doesn't work
+#kernel chain.c32
+#append hd0
+
+include pxelinux.cfg\acronis.conf
+include pxelinux.cfg\av.conf
+include pxelinux.cfg\centos.conf
+include pxelinux.cfg\debian.conf
+include pxelinux.cfg\esxi.conf
+include pxelinux.cfg\fedora.conf
+include pxelinux.cfg\freebsd.conf
+include pxelinux.cfg\ms-sccm.conf
+include pxelinux.cfg\solaris.conf
+include pxelinux.cfg\tools.conf
+include pxelinux.cfg\ubuntu.conf
+
+
+label PXE-2
+menu label Boot from secondary PXE server
+COM32 pxechn.c32
+APPEND pxe-secondary.local::boot\x86\pxelinux.com
+
+LABEL Abort
+MENU LABEL Exit
+KERNEL abortpxe.0
